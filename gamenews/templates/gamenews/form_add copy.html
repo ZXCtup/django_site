@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <form action="#" method="post">
+        {% csrf_token %}
+
+        <label for="{{form.title.id_for_label}}"> {{form.title.label}} </label>
+
+        {{ form.title }}
+        <p>{{ form.title.errors }}</p>
+
+        <label for="{{form.slug.id_for_label}}"> {{form.slug.label}} </label>
+
+        {{ form.slug }}
+        <p>{{ form.slug.errors }}</p>
+
+        <button type="submit">Go go go</button>
+    </form>
+
+    <p>{{ form.non_field_errors }}</p>
+
+{% endblock content %}

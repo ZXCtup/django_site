@@ -1,0 +1,20 @@
+{% extends "base.html" %} 
+
+
+{% block content %}
+
+
+<h1 class="mt-3">
+  {{cat}}
+</h1>
+
+
+<div class="container mt-4 text-light">
+  <div class="row g-4">
+    {% for post in post_cats %} 
+        {% include "gamenews/include_post.html" %} 
+    {% endfor %}
+  </div>
+</div>
+
+{% endblock content %}

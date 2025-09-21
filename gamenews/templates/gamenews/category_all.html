@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{{category_count}}
+    Все категории: <br>
+    {% for cat in categories %}
+        <a href="{% url "category" cat.slug %}" class="nav-link mt-2 ps-4">{{ cat.title }} {% if cat.post_count %}({{ cat.post_count }}){% endif %}</a>
+        {% endfor %}
+
+{% endblock content %}

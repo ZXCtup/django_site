@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+<div class="glass search p-1 w-75 mx-auto">
+      <form
+        action=""
+        method="GET"
+        class="px-5 my-2 mx-auto w-100 d-flex justify-content-center"
+      >
+        <label for="search" class="exo text-light me-3">Поиск</label>
+        <input
+          type="text"
+          name="search"
+          id="search"
+          class="glass px-2 text-light exo w-50"
+          style="margin: 0; flex: 1"
+        />
+        <button type="submit" class="glass m-0 text-light px-4 ms-3 exo">
+          Искать
+        </button>
+      </form>
+    </div>
+
+<div class="container mt-4 text-light">
+
+  {% if search %}
+  <p>
+    По вашему запросу <span class="text-warning">{{search}}</span> найдено {{count}} записи:
+  </p>
+  {% endif %}
+
+      <!-- Карточки рецептов -->
+      <div class="row g-4">
+        <!-- Карточка 1 -->
+        {% for item in posts %}
+        
+        
+          {% include "gamenews/include_post.html" with post=item %}
+        
+        {% endfor %}
+
+
+
+      </div>
+    </div>
+
+    
+
+    <div class="paginator glass">
+      {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}{% if search %}&search={{search}}{% endif %}"><i class="fa-solid fa-arrow-left  mx-2"></i></a>
+      {% endif %}
+
+      {% for p in paginator.page_range %}
+        {% if p >= page_obj.number|add:-2 and p <= page_obj.number|add:2 %}
+          <a href="?page={{p}}{% if search %}&search={{search}}{% endif %}" 
+          {% if page_obj.number == p %} class="text-warning" {% endif %}
+          >{{ p }}</a>
+        {% endif %}
+      {% endfor %}
+      
+      {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}{% if search %}&search={{search}}{% endif %}"><i class="fa-solid fa-arrow-right  mx-2"></i></a>
+      {% endif %}
+     
+    </div>
+
+  
+
+    {% endblock content %}
+
+

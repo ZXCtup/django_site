@@ -1,0 +1,44 @@
+<a class="col-lg-4 col-md-6 text-decoration-none" href="{% url "post" post.slug %}">
+            <div class="card recipe-card h-100 shadow-sm">
+
+              {% if post.anons_picture %}
+                <img
+                  src="{{post.anons_picture.url}}"
+                  class="card-img-top recipe-image"
+                  alt="{{post.title}}"
+                />
+              {% endif %}
+
+              <div class="card-body d-flex flex-column">
+                <h5 class="card-title text-truncate">
+                  {{ post.title }}
+                </h5>
+
+                <div class="recipe-ingredients mb-3">
+                  <p class="small text-muted exo">
+                    {{ post.shot_description }}
+                  </p>
+                </div>
+
+                <div class="recipe-meta mt-auto">
+                  <div
+                    class="d-flex justify-content-between align-items-end mb-2"
+                  >
+                    <div class="tag_line">
+
+                      {% for tag in post.tag.all %}
+                        <span class="badge tag_color">{{ tag.title }}</span>
+                      {% endfor %}
+                      
+
+                    </div>
+                  </div>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <small class="text-muted exo">{{ post.author.username|default:"Неизвестно" }}</small>
+                    <small class="text-muted"> {{ post.published_date }} </small>
+                    <small class="text-muted"> {{ post.rate }} </small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </a>

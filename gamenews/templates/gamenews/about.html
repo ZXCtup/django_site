@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    {% if perms.gamenews.add_post %}
+        ЕСТЬ РАЗРЕШЕНИЕ <br>
+    {% endif %}
+    
+    Информация о нас <br>
+    График работы <br>
+    
+
+{% endblock content %}
