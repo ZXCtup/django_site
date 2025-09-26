@@ -115,8 +115,43 @@
                         {% endfor %}
                     </div>
                 </section>
-            </div>
+                
+                
+                
+                {% if last_viewed%}
+                
+                <section class="mt-5 rounded p-4 shadow glass">
+                    <h3 class="text-warning mb-4 exo fs-5">Просмотренные статьи</h3>
 
+                    <div class="comments-list row d-flex justify-content-center">
+                        {% for p in last_viewed %}                
+                        <a href="{% url 'post' p.slug %}" class="col-2 exo text-decoration-none text-light">
+                            <img src="{{p.anons_picture.url}}" class=" rounded" alt=""  style="max-width: 120px"/>
+                            <p class="text-truncate text-decoration-none"> {{p.title}}  </p>
+                        </a>
+                        {% endfor %}
+                    </div>
+                </section>
+                
+                {% else %}
+                <section class="mt-5 rounded p-4 shadow glass">
+                    <h3 class="text-warning mb-4 exo fs-5">Просмотренные статьи</h3>
+
+                    <div class="comments-list row d-flex justify-content-center">               
+                        <a href="" class="col-2 exo text-decoration-none text-light">
+                            <img src="" class=" rounded" alt=""  style="max-width: 120px"/>
+                            <p class="text-truncate text-decoration-none"> Вы ничего не смотрели!  </p>
+                        </a>
+
+                    </div>
+                </section>
+                {% endif %}
+                
+                
+            
+            </div>
+            
+            
             <!-- Боковая панель -->
             <div class="col-lg-4">
                 <!-- Похожие статьи -->
@@ -140,24 +175,24 @@
                         </div>
                     </div>
                     {% endfor %}
-
+                    
                     <div class="text-center">
-                        <a href="all-posts.html" class="btn btn-outline-light btn-sm">
+                        <a href="{% url "home" %}" class="btn btn-outline-light btn-sm">
                             Все статьи
                         </a>
                     </div>
                 </div>
-
+                
                 <!-- Популярные категории -->
                 <div class="rounded p-4 shadow mb-4 glass">
                     <h4 class="text-light mb-3">Популярные категории</h4>
                     <div class="d-grid gap-2">
                         {% for bc in best_cats %}
-                            <a href="{% url "category" bc.slug %}" class="btn btn-outline-info btn-sm d-flex justify-content-between align-items-center">
+                        <a href="{% url "category" bc.slug %}" class="btn btn-outline-info btn-sm d-flex justify-content-between align-items-center">
                                 <span>{{ bc.title }}</span>
                                 <span class="badge bg-info">{{ bc.total }}</span>
                             </a>
-                        {% endfor %}
+                            {% endfor %}
                     </div>
                 </div>
 
@@ -173,21 +208,21 @@
                                 </h6>
                             </div>
                         </div>
-                    {% endfor %}
+                        {% endfor %}
 
                        
-
-                    <div class="text-center mt-3">
-                        <a href="{%url "home" %}" class="btn btn-outline-light btn-sm">
-                            Больше новостей
+                        
+                        <div class="text-center mt-3">
+                            <a href="{%url "home" %}" class="btn btn-outline-light btn-sm">
+                                Больше новостей
                         </a>
                     </div>
                 </div>
 
-
-
+                
+                
                 <!-- Теги облако -->
-                 <div class="glass rounded p-4 shadow">
+                <div class="glass rounded p-4 shadow">
                     <h4 class="text-light mb-3">Популярные теги</h4>
                     <div class="d-flex flex-wrap gap-1">
                         <a href="#" class="badge bg-primary exo text-decoration-none" role="button">#RPG</a>
@@ -210,5 +245,8 @@
             </div>
         </div>
     </div>
-
-{% endblock content %}
+    
+   
+    
+    {% endblock content %}
+    

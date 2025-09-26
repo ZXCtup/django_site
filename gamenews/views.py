@@ -99,6 +99,15 @@ class DetailPost(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         post = self.get_object()
+        viewed = self.request.COOKIES.get('views_post')  
+        if viewed:
+            viewed_list= viewed.split(' ')
+            int_viewed_list = list(map(int, viewed_list))
+            #context["last_viewed"] = Post.objects.filter(id__in = int_viewed_list)
+            context["last_viewed"] = [Post.objects.get(id=x) for x in int_viewed_list]
+            print(context["last_viewed"])
+        
+        
         context["comments"] = post.comments_by_post.filter(verify=True)
         context["title"] = post.title
         context["rel_posts"] = (
@@ -111,6 +120,10 @@ class DetailPost(LoginRequiredMixin, DetailView):
             total=Count("posts_by_cat")
         ).order_by("-total")[:5]
         context["last_posts"] = Post.objects.all().order_by('-published_date')[:3]
+        
+        
+        
+        
         return context
 
     def get(self, request, *args, **kwargs):        
@@ -119,11 +132,30 @@ class DetailPost(LoginRequiredMixin, DetailView):
         Post.objects.filter(pk=self.object.pk).update(views=F("views") + 1)
         self.object.refresh_from_db()
         my_context = self.get_context_data(object=self.object)
-        my_context["form"] = form
+        my_context["form"] = form        
+        response =self.render_to_response(context=my_context)
         
+        viewed = request.COOKIES.get('views_post')
+        str_obj=str(self.object.id)
+        if viewed:
+            viewed_list = viewed.split(' ')
+            if str_obj in viewed_list:
+                print(str_obj)
+                print(viewed_list)
+                print("уже есть")
+                print("убрал")
+                viewed_list.remove(str_obj)
+            viewed_list.insert(0, str_obj)
+            if len(viewed_list)>5:
+                
+                viewed_list = viewed_list[:5]
+            
+        else:
+            viewed_list = [str_obj]
 
-        return self.render_to_response(context=my_context)
-
+        response.set_cookie(key='views_post',value=' '.join(viewed_list), max_age=84600)
+        
+        return response
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
         form = CommentForm(request.POST)
